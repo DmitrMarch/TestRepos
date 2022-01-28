@@ -180,12 +180,12 @@ for event in VkLongPoll(session).listen():
                         write_msg(peer_id, 'Это картинка собаки.')
                     elif hash in neko_hashs:
                         write_msg(peer_id, 'Это картинка неко тян.')
-                    elif cat_distance >= 1:
-                        write_msg(peer_id, 'На вашей фотографии кот? Напишите ✅да или ❌нет.')
-                                                for event in VkLongPoll(session).listen():
-                            if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                                        elif cat_distance >= 1:
+                        write_msg(peer_id, 'Бот обнаружил кота на фотографии, это правильно? Напишите Да или Нет.')
+                        for event in VkLongPoll(session).listen():
+                            if event.type == VkEventType.MESSAGE_NEW and event.to_me and peer_id == event.peer_id or \
+                                    event.from_me:
                                 text = event.text.lower()
-                                peer_id = event.peer_id
                                 if 'да' == text:
                                     a += 1
                                     shutil.move('photo.jpg', f'Cats/cat_{a}.jpg')
@@ -198,9 +198,9 @@ for event in VkLongPoll(session).listen():
                     elif dog_distance >= 1:
                         write_msg(peer_id, 'Бот обнаружил собаку на фотографии, это правильно? Напишите Да или Нет.')
                         for event in VkLongPoll(session).listen():
-                            if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                            if event.type == VkEventType.MESSAGE_NEW and event.to_me and peer_id == event.peer_id or \
+                                    event.from_me:
                                 text = event.text.lower()
-                                peer_id = event.peer_id
                                 if 'да' == text:
                                     z += 1
                                     shutil.move('photo.jpg', f'Dogs/dog_{z}.jpg')
@@ -214,9 +214,9 @@ for event in VkLongPoll(session).listen():
                         write_msg(peer_id, 'Бот обнаружил неко тян на фотографии, это правильно? Напишите ✅Да или '
                                            '❌Нет.')
                         for event in VkLongPoll(session).listen():
-                            if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                            if event.type == VkEventType.MESSAGE_NEW and event.to_me and peer_id == event.peer_id or \
+                                    event.from_me:
                                 text = event.text.lower()
-                                peer_id = event.peer_id
                                 if 'да' == text:
                                     t += 1
                                     shutil.move('photo.jpg', f'Neko/neko_{t}.jpg')
@@ -229,9 +229,9 @@ for event in VkLongPoll(session).listen():
                     else:
                         write_msg(peer_id, 'Бот не смог распознать того, кто находится на фотографии.\nНапишите сами.')
                         for event in VkLongPoll(session).listen():
-                            if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                            if event.type == VkEventType.MESSAGE_NEW and event.to_me and peer_id == event.peer_id or \
+                                    event.from_me:
                                 text = event.text.lower()
-                                peer_id = event.peer_id
                                 if 'кот' in text or 'кошка' == text:
                                     a += 1
                                     shutil.move('photo.jpg', f'Cats/cat_{a}.jpg')
@@ -400,8 +400,8 @@ for event in VkLongPoll(session).listen():
                     lrw = str(random.sample(lw, n))[1:-1].replace("'", '')
                     write_msg(peer_id, 'Рандомные слова: ' + lrw)
                 except ValueError:
-                    write_msg(peer_id, '🚫Количество случайных слов превышает количество слов в списке, или они неправильно '
-                                       'введены🚫')
+                    write_msg(peer_id, '🚫Количество случайных слов превышает количество слов в списке, или они '
+                                       'неправильно введены🚫')
                 except NameError:
                     write_msg(peer_id, '🚫Неправильно введены список слов или количество случайных слов🚫')
                 except IndexError:
