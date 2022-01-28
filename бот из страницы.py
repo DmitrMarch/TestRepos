@@ -411,5 +411,4 @@ for event in VkLongPoll(session).listen():
                 except SyntaxError:
                     write_msg(peer_id, '🚫Неправильно введены список слов или количество случайных слов🚫')
     except Exception as aboba:
-        peer_id = event.peer_id
-        write_msg(peer_id, f'🚫Произошла ошибка{aboba}🚫')
+        print(f'🚫Произошла ошибка {aboba}🚫')
