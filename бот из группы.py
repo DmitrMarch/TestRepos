@@ -35,11 +35,11 @@ def hamming_distance(hash2) -> int:
             distance += 1
     return distance
 # значение картинки кота
-a = 0
+a = 16
 # значение картинки собаки
-z = 0
+z = 3
 # значение картинки неко тян
-t = 0
+t = 7
 bot = '''🤖 Бот 🤖
 Доступные команды бота:
 1⃣  Для функции Фотоопределитель нажмите 👉Photo👈;
@@ -49,9 +49,9 @@ bot = '''🤖 Бот 🤖
 👉Rand👈;
 4⃣  Для того, чтобы выйти в меню выбора бота, нажмите 👉Назад👈;
 6⃣  Для того, чтобы узнать свой числовой id, нажмите 
-👉Myid👈;
+👉Id👈;
 7⃣  Для того, чтобы узнать чужой числовой id, напишите 
-Ids 👉короткий адрес👈;
+Id 👉короткий адрес👈;
 8⃣  Для того, чтобы узнать числовой id группы, напишите Group id 
 👉короткий адрес👈.
 ❗P.s. короткий адрес указывайте без @.'''
@@ -94,7 +94,7 @@ rand = '''❓ Рандомайзер ❓
 количество чисел или слов в диапазоне или списке; числа в диапазоне пишутся от и до, например, от 1 до 
 10 - это числа с 1 по 9.'''
 
-session = vk_api.VkApi(token="сюда вставь токен своей группы")
+session = vk_api.VkApi(token="d260bf5b76f6e1b9bd43be2962f6ae1cf09b2977a9a1ceeacb97987f3a8a7a7e7b56486d1d926e5fbc8e3")
 def write_msg(peer_id, message, keyboard=None):
     post = {
         'peer_id': peer_id,
@@ -134,7 +134,7 @@ for event in VkLongPoll(session).listen():
             keyboard2.add_button('Info')
             keyboard2.add_line()
             keyboard2.add_button('Photo', VkKeyboardColor.POSITIVE)
-            keyboard2.add_button('Myid', VkKeyboardColor.POSITIVE)
+            keyboard2.add_button('Id', VkKeyboardColor.POSITIVE)
             keyboard2.add_line()
             keyboard2.add_button('Rand', VkKeyboardColor.PRIMARY)
             keyboard2.add_button('Calc', VkKeyboardColor.PRIMARY)
@@ -156,31 +156,31 @@ for event in VkLongPoll(session).listen():
             if 'начать' == text:
                 write_msg(peer_id, f'Добро пожаловать, {name}.\nВыберите бота:', keyboard1)
             # выбор Основного Бота:
-            elif 'основной бот' in text[:12] or 'основной бот' in text[29:41]:
+            elif 'основной бот' == text or 'основной бот' == text[29:41]:
                 write_msg(peer_id,
                           'Основной Бот.\nВыберите кнопку:\nP.s. для вывода информации о кнопках нажмите 👉Info👈.',
                           keyboard2)
             # выбор Кликер Бота:
-            elif 'кликер бот' in text[:10] or 'кликер бот' in text[29:39]:
+            elif 'кликер бот' == text or 'кликер бот' == text[29:39]:
                 write_msg(peer_id, 'Кликер Бот.\nВыберите кнопку:', keyboard3)
             # переход в меню выбора бота:
-            elif 'назад' in text[:5] or 'назад' in text[29:34]:
+            elif 'назад' == text or 'назад' == text[29:34]:
                 write_msg(peer_id, 'Выберите бота:', keyboard1)
             # главная инфо команда Бота:
-            elif 'info' in text[:4] or 'info' in text[29:33]:
+            elif 'info' == text or 'info' == text[29:33]:
                 write_msg(peer_id, bot)
             # первая подглавная инфо команда Бота:
-            elif 'calc' in text[:4] or 'calc' in text[29:33]:
+            elif 'calc' == text or 'calc' == text[29:33]:
                 write_msg(peer_id, calc)
             # вторая подглавная инфо команда Бота:
-            elif 'rand' in text[:4] or 'rand' in text[29:33]:
+            elif 'rand' == text or 'rand' == text[29:33]:
                 write_msg(peer_id, rand)
             # Фотоопределитель:
-            elif 'photo' in text[:5] or 'photo' in text[29:34]:
+            elif 'photo' == text or 'photo' == text[29:34]:
                 write_msg(peer_id,
                           '📷Фотоопределитель📷\nНапишите Фото 👉ссылка на фотографию👈, и бот попытается распознать, '
                           'что на фотографии.\nP.s. пока доступны только фотографии котов, собак и неко тян.')
-            elif 'фото http' in text[:9] or 'фото\nhttp' in text[:8]:
+            elif 'фото http' == text[:9] or 'фото\nhttp' == text[:8]:
                 try:
                     cat_distance = 0
                     dog_distance = 0
@@ -234,47 +234,47 @@ for event in VkLongPoll(session).listen():
                     elif hash in neko_hashs:
                         write_msg(peer_id, 'Это картинка неко тян.')
                     elif cat_distance >= 1:
-                        write_msg(peer_id, 'На вашей фотографии кот?', keyboard4)
+                        write_msg(peer_id, 'Бот обнаружил кота на фотографии, это правильно?', keyboard4)
                         for event in VkLongPoll(session).listen():
                             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                 text = event.text.lower()
                                 peer_id = event.peer_id
-                                if '✅да' in text[:3] or '✅да' in text[29:32]:
+                                if '✅да' == text or '✅да' == text[29:32]:
                                     a += 1
                                     shutil.move('photo.jpg', f'Cats/cat_{a}.jpg')
                                     write_msg(peer_id, 'Хорошо, распознавание котов улучшилось.', keyboard2)
                                     break
-                                elif '❌нет' in text[:4] or '❌нет' in text[29:33]:
+                                elif '❌нет' == text or '❌нет' == text[29:33]:
                                     write_msg(peer_id, 'Бот ещё учится, но вы можете его развить, отправив ещё одну '
                                                        'фотографию.', keyboard2)
                                     break
                     elif dog_distance >= 1:
-                        write_msg(peer_id, 'На вашей фотографии собака?', keyboard4)
-                        for event in VkLongPoll(session).listen():
-                            if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
-                                text = event.text.lower()
-                                peer_id = event.peer_id
-                                if '✅да' in text[:3] or '✅да' in text[29:32]:
-                                    z += 1
-                                    shutil.move('photo.jpg', f'Dogs/dog_{z}.jpg')
-                                    write_msg(peer_id, 'Хорошо, распознавание собак улучшилось.', keyboard2)
-                                    break
-                                elif '❌нет' in text[:4] or '❌нет' in text[29:33]:
-                                    write_msg(peer_id, 'Бот ещё учится, но вы можете его развить, отправив ещё одну '
-                                                       'фотографию.', keyboard2)
-                                    break
-                    elif neko_distance >= 1:
-                        write_msg(peer_id, 'На вашей фотографии неко тян?', keyboard4)
+                        write_msg(peer_id, 'Бот обнаружил собаку на фотографии, это правильно?', keyboard4)
                         for event in VkLongPoll(session).listen():
                             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                 text = event.text.lower()
                                 peer_id = event.peer_id
-                                if '✅да' in text[:3] or '✅да' in text[29:32]:
+                                if '✅да' == text or '✅да' == text[29:32]:
+                                    z += 1
+                                    shutil.move('photo.jpg', f'Dogs/dog_{z}.jpg')
+                                    write_msg(peer_id, 'Хорошо, распознавание собак улучшилось.', keyboard2)
+                                    break
+                                elif '❌нет' == text or '❌нет' == text[29:33]:
+                                    write_msg(peer_id, 'Бот ещё учится, но вы можете его развить, отправив ещё одну '
+                                                       'фотографию.', keyboard2)
+                                    break
+                    elif neko_distance >= 1:
+                        write_msg(peer_id, 'Бот обнаружил неко тян на фотографии, это правильно?', keyboard4)
+                        for event in VkLongPoll(session).listen():
+                            if event.type == VkEventType.MESSAGE_NEW and event.to_me:
+                                text = event.text.lower()
+                                peer_id = event.peer_id
+                                if '✅да' == text or '✅да' == text[29:32]:
                                     t += 1
                                     shutil.move('photo.jpg', f'Neko/neko_{t}.jpg')
                                     write_msg(peer_id, 'Хорошо, распознавание неко тян улучшилось.', keyboard2)
                                     break
-                                elif '❌нет' in text[:4] or '❌нет' in text[29:33]:
+                                elif '❌нет' == text or '❌нет' == text[29:33]:
                                     write_msg(peer_id, 'Бот ещё учится, но вы можете его развить, отправив ещё одну '
                                                        'фотографию.', keyboard2)
                                     break
@@ -289,7 +289,7 @@ for event in VkLongPoll(session).listen():
                                     shutil.move('photo.jpg', f'Cats/cat_{a}.jpg')
                                     write_msg(peer_id, 'Хорошо, распознавание котов улучшилось.', keyboard2)
                                     break
-                                elif 'собак' in text[:5] or 'щено' in text[:4]:
+                                elif 'собак' in text or 'щено' in text or 'пес' in text or 'пёс' in text:
                                     z += 1
                                     shutil.move('photo.jpg', f'Dogs/dog_{z}.jpg')
                                     write_msg(peer_id, 'Хорошо, распознавание собак улучшилось.', keyboard2)
@@ -311,12 +311,12 @@ for event in VkLongPoll(session).listen():
                 except requests.exceptions.ConnectionError:
                     write_msg(peer_id, '🚫Ошибка, не получилось скачать фотографию🚫')
             # имена
-            elif 'имя ' in text[:4]:
+            elif 'имя ' == text[:4]:
                 nick = event.text[4:]
                 dict[user_id] = nick
                 write_msg(peer_id, f'@id{user_id} ({name}), ваше новое имя - {nick}.\nЧтобы посмотреть топ новых имён '
                                    f'напишите\n👉Имена👈.\nЧтобы удалить новое имя напишите 👉Кик имя👈.')
-            elif 'имена' in text[:5]:
+            elif 'имена' == text:
                 s = []
                 for b in dict.items():
                     user = session.method('users.get', {
@@ -326,7 +326,7 @@ for event in VkLongPoll(session).listen():
                     s.append(f'@id{b[0]} ({username}) - {b[1]}')
                 top = '\n'.join(s)
                 write_msg(peer_id, 'Топ новых имён:\n' + top)
-            elif 'кик имя' in text[:7]:
+            elif 'кик имя' == text:
                 try:
                     nick = dict[user_id]
                     name = user[0]['first_name'] + ' ' + user[0]['last_name']
@@ -336,7 +336,7 @@ for event in VkLongPoll(session).listen():
                     write_msg(peer_id, 'У вас и так нет нового имени.')
             # команды Кликер Бота:
             # сало:
-            elif 'сало' in text[:4] or 'сало' in text[29:33]:
+            elif 'сало' == text or 'сало' == text[29:33]:
                 o = random.choice(range(100, 1001))
                 k = round(k + o / 1000, 2)
                 m = 185
@@ -348,19 +348,19 @@ for event in VkLongPoll(session).listen():
 Цена всего сала на складе: {l} грн / {p} ₽.
 Цена за кг: {m} грн / {n} ₽.''')
             # профиль:
-            elif 'профиль' in text[:7] or 'профиль' in text[29:36]:
+            elif 'профиль' == text or 'профиль' == text[29:36]:
                 write_msg(peer_id, f'''Ваш ID: {user_id}
 Вы собрали {k} кг сала''')
             # топ:
-            elif 'топ' in text[:3] or 'топ' in text[29:32]:
+            elif 'топ' == text or 'топ' == text[29:32]:
                 write_msg(peer_id, f'''Топ по количеству сала на складе:
 1) @id{user_id} ({name}) - {k} кг сала''')
             # свой айди:
-            elif 'myid' in text[:4] or 'myid' in text[29:33]:
+            elif 'id' == text or 'id' == text[29:31]:
                 user_id = event.user_id
                 write_msg(peer_id, f'Твой айди: {user_id}')
             # чужой айди:
-            elif 'ids ' in text[:4]:
+            elif 'id ' == text[:3]:
                 try:
                     text = text.replace('ids ', '')
                     user = session.method('users.get', {
@@ -371,7 +371,7 @@ for event in VkLongPoll(session).listen():
                 except vk_api.exceptions.ApiError:
                     write_msg(peer_id, '🚫Ошибка, неправильно введён короткий адрес🚫')
             # айди группы:
-            elif 'group id ' in text[:9]:
+            elif 'group id ' == text[:9]:
                 try:
                     text = text.replace('group id ', '')
                     group = session.method('groups.getById', {
@@ -387,11 +387,11 @@ for event in VkLongPoll(session).listen():
                     write_msg(445186298, '💤Выключение бота💤')
                     break
             # команда Калькулятора:
-            elif 'реши ' in text[:5]:
+            elif 'реши ' == text[:5]:
                 try:
                     string = text.replace('реши ', '')
                     b = 'Ответ: ' + str(eval(string))
-                    if '.0' in b[-2:]:
+                    if '.0' == b[-2:]:
                         c = b.replace('.0', '')
                         write_msg(peer_id, c)
                     else:
@@ -407,7 +407,7 @@ for event in VkLongPoll(session).listen():
             # команды Рандомайзера:
             # случайные числа:
             # 1 число:
-            elif 'ранд ' in text[:5]:
+            elif 'ранд ' == text[:5]:
                 try:
                     text = text.replace('ранд ', '')
                     d = int(text[:text.index(' ')])
@@ -426,7 +426,7 @@ for event in VkLongPoll(session).listen():
                 except SyntaxError:
                     write_msg(peer_id, '🚫Неправильно введён диапазон чисел🚫')
             # несколько чисел:
-            elif 'несранд' in text[:7]:
+            elif 'несранд' == text[:7]:
                 try:
                     text = text.replace('несранд', '')
                     d = int(text[:text.index(' ')])
@@ -450,7 +450,7 @@ for event in VkLongPoll(session).listen():
                     write_msg(peer_id, '🚫Неправильно введены диапазон чисел или количество случайных чисел🚫')
             # случайные слова:
             # 1 слово:
-            elif 'сранд ' in text[:6]:
+            elif 'сранд ' == text[:6]:
                 try:
                     lw = text.replace('сранд ', '').split()
                     rw = random.choice(lw)
@@ -466,7 +466,7 @@ for event in VkLongPoll(session).listen():
                 except SyntaxError:
                     write_msg(peer_id, '🚫Неправильно введён список слов🚫')
             # несколько слов:
-            elif 'нессранд' in text[:8]:
+            elif 'нессранд' == text[:8]:
                 try:
                     text = text.replace('нессранд', '')
                     n = int(text[:text.index(' ')])
