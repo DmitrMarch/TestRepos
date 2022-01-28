@@ -94,7 +94,7 @@ rand = '''❓ Рандомайзер ❓
 количество чисел или слов в диапазоне или списке; числа в диапазоне пишутся от и до, например, от 1 до 
 10 - это числа с 1 по 9.'''
 
-session = vk_api.VkApi(token="d260bf5b76f6e1b9bd43be2962f6ae1cf09b2977a9a1ceeacb97987f3a8a7a7e7b56486d1d926e5fbc8e3")
+session = vk_api.VkApi(token="сюда вставь токен своей группы")
 def write_msg(peer_id, message, keyboard=None):
     post = {
         'peer_id': peer_id,
