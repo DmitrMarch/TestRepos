@@ -246,7 +246,7 @@ for event in VkLongPoll(session).listen():
                     elif cat_distance >= 1:
                         write_msg(peer_id, 'Бот обнаружил кота на фотографии, это правильно?', keyboard4)
                         for event in VkLongPoll(session).listen():
-                            if event.type == VkEventType.MESSAGE_NEW and event.to_me and peer_id == event.peer_id:
+                            if event.type == VkEventType.MESSAGE_NEW and event.to_me and user_id == event.user_id:
                                 text = event.text.lower()
                                 if '✅да' == text or '✅да' == text[29:32]:
                                     a += 1
@@ -260,7 +260,7 @@ for event in VkLongPoll(session).listen():
                     elif dog_distance >= 1:
                         write_msg(peer_id, 'Бот обнаружил собаку на фотографии, это правильно?', keyboard4)
                         for event in VkLongPoll(session).listen():
-                            if event.type == VkEventType.MESSAGE_NEW and event.to_me and peer_id == event.peer_id:
+                            if event.type == VkEventType.MESSAGE_NEW and event.to_me and user_id == event.user_id:
                                 text = event.text.lower()
                                 if '✅да' == text or '✅да' == text[29:32]:
                                     z += 1
@@ -274,7 +274,7 @@ for event in VkLongPoll(session).listen():
                     elif neko_distance >= 1:
                         write_msg(peer_id, 'Бот обнаружил кошкодевочку на фотографии, это правильно?', keyboard4)
                         for event in VkLongPoll(session).listen():
-                            if event.type == VkEventType.MESSAGE_NEW and event.to_me and peer_id == event.peer_id:
+                            if event.type == VkEventType.MESSAGE_NEW and event.to_me and user_id == event.user_id:
                                 text = event.text.lower()
                                 if '✅да' == text or '✅да' == text[29:32]:
                                     t += 1
@@ -288,7 +288,7 @@ for event in VkLongPoll(session).listen():
                     else:
                         write_msg(peer_id, 'Бот не смог распознать того, кто находится на фотографии.\nНапишите сами.')
                         for event in VkLongPoll(session).listen():
-                            if event.type == VkEventType.MESSAGE_NEW and event.to_me and peer_id == event.peer_id:
+                            if event.type == VkEventType.MESSAGE_NEW and event.to_me and user_id == event.user_id:
                                 text = event.text.lower()
                                 if 'кот' in text or 'кошка' == text:
                                     a += 1
