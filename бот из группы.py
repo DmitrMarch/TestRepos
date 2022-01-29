@@ -29,7 +29,7 @@ def imgs_open(val):
 def imgs_hashs(val):
     return str(imagehash.phash(val))
 # нахождение дистанции Хэйминга
-def hamming_distance(hash2) -> int:
+def hamming_distance(hash2):
     distance = 0
     for i in range(len(hash1)):
         if hash1[i] != hash2[i]:
