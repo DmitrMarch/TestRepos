@@ -31,8 +31,8 @@ def imgs_hashs(val):
 # нахождение дистанции Хэйминга
 def hamming_distance(hash2) -> int:
     distance = 0
-    for i in range(len(hash)):
-        if hash[i] != hash2[i]:
+    for i in range(len(hash1)):
+        if hash1[i] != hash2[i]:
             distance += 1
     return distance
 # значение картинки кота (значения обозначают номер 
@@ -219,7 +219,7 @@ while 1:
                         with open('photo.jpg', 'wb') as handler:
                             handler.write(img)
                         img = Image.open('photo.jpg')
-                        hash = str(imagehash.phash(img))
+                        hash1 = str(imagehash.phash(img))
                         file = 'Cats' # название папки с котами (у меня все эти папки находятся тут 
                         # C:\Users\Dmitriy\PycharmProjects\pythonProject в конце pythonProject - это 
                         # название рабочей папки, где находятся все твои программы) 🤡
@@ -249,11 +249,11 @@ while 1:
                         for distance in neko_distances:
                             if distance <= 10:
                                 neko_distance += 1
-                        if hash in cat_hashs:
+                        if hash1 in cat_hashs:
                             write_msg(peer_id, 'Это картинка кота.')
-                        elif hash in dog_hashs:
+                        elif hash1 in dog_hashs:
                             write_msg(peer_id, 'Это картинка собаки.')
-                        elif hash in neko_hashs:
+                        elif hash1 in neko_hashs:
                             write_msg(peer_id, 'Это картинка кошкодевочки.')
                         elif cat_distance >= 1:
                             write_msg(peer_id, 'Бот обнаружил кота на фотографии, это правильно?', keyboard4)
