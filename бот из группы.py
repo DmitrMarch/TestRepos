@@ -244,7 +244,7 @@ while 1:
                             if distance >= 50:
                                 dog_distance += 1
                         for distance in neko_distances:
-                            if distance >= 50:
+                            if distance >= 55:
                                 neko_distance += 1
                         if hash1 in cat_hashs:
                             write_msg(peer_id, 'Это картинка кота.')
