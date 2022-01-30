@@ -8,6 +8,7 @@ import PIL
 from PIL import Image
 import imagehash
 import shutil
+from fuzzywuzzy import fuzz
 from math import e
 from math import pi
 from math import sqrt
@@ -17,7 +18,7 @@ from math import cos
 from math import tan
 from math import factorial as f
 mod = abs
-dict = {}
+dict_names = {}
 ex = 0
 # начальное количество сала
 k = 0
@@ -43,6 +44,8 @@ a = 0
 z = 0
 # значение картинки кошкодевочки🤡
 t = 0
+# значение картинки из категории другое
+x = 1
 bot = '''🤖 Бот 🤖
 Доступные команды бота:
 1⃣  Фотоопределитель - 
@@ -194,13 +197,14 @@ while 1:
                 # фотоопределитель
                 elif 'photo' == text:
                     write_msg(peer_id, '📷Фотоопределитель📷\nНапишите Фото 👉ссылка на фотографию👈, и бот попытается '
-                                       'распознать, что на фотографии.\nP.s. пока доступны только фотографии котов, собак '
-                                       'и кошкодевочек.')
+                                       'её распознать.\nP.s. пока доступны только фотографии котов, собак и '
+                                       'кошкодевочек.')
                 elif 'фото http' == text[:9] or 'фото\nhttp' == text[:8]:
                     try:
                         cat_distance = 0
                         dog_distance = 0
                         neko_distance = 0
+                        other_distance = 0
                         text = event.text[5:]
                         user_id1 = event.user_id
                         if 'amp;' in text:
@@ -221,22 +225,28 @@ while 1:
                         # C:\Users\Dmitriy\PycharmProjects\pythonProject в конце pythonProject - это 
                         # название рабочей папки, где находятся все твои программы) 🤡
                         cat_imgs = os.listdir(file)
-                        cat_imgs = list(map(imgs_urls, cat_imgs))
-                        cat_imgs = list(map(imgs_open, cat_imgs))
-                        cat_hashs = list(map(imgs_hashs, cat_imgs))
+                        cat_url_imgs = list(map(imgs_urls, cat_imgs))
+                        cat_open_imgs = list(map(imgs_open, cat_url_imgs))
+                        cat_hashs = list(map(imgs_hashs, cat_open_imgs))
                         cat_distances = list(map(similarity, cat_hashs))
                         file = 'Dogs' # название папки с собаками 🤡
                         dog_imgs = os.listdir(file)
-                        dog_imgs = list(map(imgs_urls, dog_imgs))
-                        dog_imgs = list(map(imgs_open, dog_imgs))
-                        dog_hashs = list(map(imgs_hashs, dog_imgs))
+                        dog_url_imgs = list(map(imgs_urls, dog_imgs))
+                        dog_open_imgs = list(map(imgs_open, dog_url_imgs))
+                        dog_hashs = list(map(imgs_hashs, dog_open_imgs))
                         dog_distances = list(map(similarity, dog_hashs))
                         file = 'Neko' # название папки с неко тян 🤡
                         neko_imgs = os.listdir(file)
-                        neko_imgs = list(map(imgs_urls, neko_imgs))
-                        neko_imgs = list(map(imgs_open, neko_imgs))
-                        neko_hashs = list(map(imgs_hashs, neko_imgs))
+                        neko_url_imgs = list(map(imgs_urls, neko_imgs))
+                        neko_open_imgs = list(map(imgs_open, neko_url_imgs))
+                        neko_hashs = list(map(imgs_hashs, neko_open_imgs ))
                         neko_distances = list(map(similarity, neko_hashs))
+                        file = 'Other' # название папки из категории другое
+                        other_imgs = os.listdir(file)
+                        other_url_imgs = list(map(imgs_urls, other_imgs))
+                        other_open_imgs = list(map(imgs_open, other_url_imgs))
+                        other_hashs = list(map(imgs_hashs, other_open_imgs))
+                        other_dict = dict(zip(other_hashs, other_imgs))
                         for distance in cat_distances:
                             if distance >= 60:
                                 cat_distance += 1
@@ -246,16 +256,26 @@ while 1:
                         for distance in neko_distances:
                             if distance >= 55:
                                 neko_distance += 1
+                        for distance in other_distances:
+                            if distance >= 50:
+                                other_distance += 1                                
                         if hash1 in cat_hashs:
                             write_msg(peer_id, 'Это картинка кота.')
                         elif hash1 in dog_hashs:
                             write_msg(peer_id, 'Это картинка собаки.')
                         elif hash1 in neko_hashs:
                             write_msg(peer_id, 'Это картинка кошкодевочки.')
+                        elif hash1 in other_hashs:
+                            other_name = other_dict[hash1]
+                            if '_' in other_name:
+                                other_name = other_name[:other_name.index('_')]
+                            else:
+                                other_name = other_name[:other_name.index('.')]
+                            write_msg(peer_id, f'На фото {other_name}.')
                         elif cat_distance >= 1:
                             write_msg(peer_id, 'Бот обнаружил кота на фотографии, это правильно?', keyboard4)
                             for event in VkLongPoll(session).listen():
-                                if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                                if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                     user_id2 = event.user_id
                                     text = event.text.lower()
                                     if '✅да' == text or '✅да' == text[29:32] and user_id2 == user_id1:
@@ -264,9 +284,9 @@ while 1:
                                         write_msg(peer_id, 'Хорошо, распознавание котов улучшилось.', keyboard2)
                                         break
                                     elif '❌нет' == text or '❌нет' == text[29:33] and user_id2 == user_id1:
-                                        write_msg(peer_id, 'Бот ещё учится, напишите свой вариант.')
+                                        write_msg(peer_id, 'Бот ещё учится, напишите свой вариант того, что на фото.')
                                         for event in VkLongPoll(session).listen():
-                                            if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                                            if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                                 user_id2 = event.user_id
                                                 text = event.text.lower()
                                                 if 'кот' in text or 'кошка' == text or 'кошки' == text or 'кошак' in \
@@ -288,13 +308,18 @@ while 1:
                                                     write_msg(peer_id, 'Хорошо, распознавание кошкодевочек улучшилось.')
                                                     break
                                                 elif user_id2 == user_id1:
-                                                    write_msg(peer_id, 'Бот ещё не научился его(её) распознавать.')
+                                                    text = event.text
+                                                    x += 1
+                                                    shutil.move('photo.jpg', f'Other/{text}_{x}.jpg')
+                                                    write_msg(peer_id, 'Бот ещё не научился его(её) распознавать, фото '
+                                                                       'добавлено в папку с будущими фотографиями для '
+                                                                       'распознавания.')
                                                     break
                                         break
                         elif dog_distance >= 1:
                             write_msg(peer_id, 'Бот обнаружил собаку на фотографии, это правильно?', keyboard4)
                             for event in VkLongPoll(session).listen():
-                                if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                                if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                     user_id2 = event.user_id
                                     text = event.text.lower()
                                     if '✅да' == text or '✅да' == text[29:32] and user_id2 == user_id1:
@@ -303,9 +328,9 @@ while 1:
                                         write_msg(peer_id, 'Хорошо, распознавание собак улучшилось.', keyboard2)
                                         break
                                     elif '❌нет' == text or '❌нет' == text[29:33] and user_id2 == user_id1:
-                                        write_msg(peer_id, 'Бот ещё учится, напишите свой вариант.')
+                                        write_msg(peer_id, 'Бот ещё учится, напишите свой вариант того, что на фото.')
                                         for event in VkLongPoll(session).listen():
-                                            if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                                            if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                                 user_id2 = event.user_id
                                                 text = event.text.lower()
                                                 if 'кот' in text or 'кошка' == text or 'кошки' == text or 'кошак' in \
@@ -327,13 +352,18 @@ while 1:
                                                     write_msg(peer_id, 'Хорошо, распознавание кошкодевочек улучшилось.')
                                                     break
                                                 elif user_id2 == user_id1:
-                                                    write_msg(peer_id, 'Бот ещё не научился его(её) распознавать.')
+                                                    text = event.text
+                                                    x += 1
+                                                    shutil.move('photo.jpg', f'Other/{text}_{x}.jpg')
+                                                    write_msg(peer_id, 'Бот ещё не научился его(её) распознавать, фото '
+                                                                       'добавлено в папку с будущими фотографиями для '
+                                                                       'распознавания.')
                                                     break
                                         break
                         elif neko_distance >= 1:
                             write_msg(peer_id, 'Бот обнаружил кошкодевочку на фотографии, это правильно?', keyboard4)
                             for event in VkLongPoll(session).listen():
-                                if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                                if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                     user_id2 = event.user_id
                                     text = event.text.lower()
                                     if '✅да' == text or '✅да' == text[29:32] and user_id2 == user_id1:
@@ -342,9 +372,9 @@ while 1:
                                         write_msg(peer_id, 'Хорошо, распознавание кошкодевочек улучшилось.', keyboard2)
                                         break
                                     elif '❌нет' == text or '❌нет' == text[29:33] and user_id2 == user_id1:
-                                        write_msg(peer_id, 'Бот ещё учится, напишите свой вариант.')
+                                        write_msg(peer_id, 'Бот ещё учится, напишите свой вариант того, что на фото.')
                                         for event in VkLongPoll(session).listen():
-                                            if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                                            if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                                 user_id2 = event.user_id
                                                 text = event.text.lower()
                                                 if 'кот' in text or 'кошка' == text or 'кошки' == text or 'кошак' in \
@@ -366,14 +396,18 @@ while 1:
                                                     write_msg(peer_id, 'Хорошо, распознавание кошкодевочек улучшилось.')
                                                     break
                                                 elif user_id2 == user_id1:
-                                                    write_msg(peer_id, 'Бот ещё не научился его(её) распознавать.')
+                                                    text = event.text
+                                                    x += 1
+                                                    shutil.move('photo.jpg', f'Other/{text}_{x}.jpg')
+                                                    write_msg(peer_id, 'Бот ещё не научился его(её) распознавать, фото '
+                                                                       'добавлено в папку с будущими фотографиями для '
+                                                                       'распознавания.')
                                                     break
                                         break
                         else:
-                            write_msg(peer_id, 'Бот не смог распознать того, кто находится на фотографии.\nНапишите '
-                                               'сами.')
+                            write_msg(peer_id, 'Бот не смог распознать фотографию.\nНапишите, что же на ней.')
                             for event in VkLongPoll(session).listen():
-                                if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                                if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                     user_id2 = event.user_id
                                     text = event.text.lower()
                                     if 'кот' in text or 'кошка' == text or 'кошки' == text or 'кошак' in text and \
@@ -395,7 +429,12 @@ while 1:
                                         write_msg(peer_id, 'Хорошо, распознавание кошкодевочек улучшилось.')
                                         break
                                     elif user_id2 == user_id1:
-                                        write_msg(peer_id, 'Бот ещё не научился его(её) распознавать.')
+                                        text = event.text
+                                        x += 1
+                                        shutil.move('photo.jpg', f'Other/{text}_{x}.jpg')
+                                        write_msg(peer_id, 'Бот ещё не научился его(её) распознавать, фото '
+                                                           'добавлено в папку с будущими фотографиями для '
+                                                           'распознавания.')
                                         break
                     except requests.exceptions.InvalidURL:
                         write_msg(peer_id, '🚫Ошибка, некорректная ссылка🚫')
@@ -408,12 +447,12 @@ while 1:
                 # имена
                 elif 'имя ' == text[:4]:
                     nick = event.text[4:]
-                    dict[user_id] = nick
+                    dict_names[user_id] = nick
                     write_msg(peer_id, f'@id{user_id} ({name}), ваше новое имя - {nick}.\nЧтобы посмотреть топ новых '
                                        f'имён напишите\n👉Имена👈.\nЧтобы удалить новое имя напишите 👉Кик имя👈.')
                 elif 'имена' == text:
                     s = []
-                    for b in dict.items():
+                    for b in dict_names.items():
                         user = session.method('users.get', {
                             "user_ids": b[0]
                         })
@@ -423,9 +462,9 @@ while 1:
                     write_msg(peer_id, 'Топ новых имён:\n' + top)
                 elif 'кик имя' == text:
                     try:
-                        nick = dict[user_id]
+                        nick = dict_names[user_id]
                         name = user[0]['first_name'] + ' ' + user[0]['last_name']
-                        del dict[user_id]
+                        del dict_names[user_id]
                         write_msg(peer_id, f'@id{user_id} ({nick}), теперь вы снова {name}.')
                     except KeyError:
                         write_msg(peer_id, 'У вас и так нет нового имени.')
