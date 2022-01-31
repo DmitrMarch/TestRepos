@@ -47,13 +47,9 @@ def imgs_hashs(val):
 def similarity(hash2):
     return fuzz.token_sort_ratio(hash1, hash2)
 
-# получение номеров последних картинок из словаря Значения картинок.txt
-with open('Значения картинок.txt', 'r') as dict_values:
-    dict_values1 = eval(dict_values.read())
-    cat = dict_values1['cat']  # значение картинки кота
-    dog = dict_values1['dog']  # значение картинки собаки
-    neko = dict_values1['neko']  # значение картинки кошкодевочки
-    other = dict_values1['other']  # значение картинки из категории другое
+# начальное количество сала и его общая стоимость для кажого пользователя (словарь тут Значения кликера.txt)
+with open('Значения кликера.txt', 'r') as dict_klicker:
+    dict_klicker1 = eval(dict_klicker.read())
 
 bot = '''🤖 Бот 🤖
 Доступные команды бота:
@@ -741,14 +737,21 @@ while 1:
 
                 # команды Кликер Бота:
 
-                # получение сала на склад
+               # получение сала на склад
                 elif 'сало' == text or 'сало' == text[29:33]:
+                    if user_id in dict_klicker1:
+                        kg = dict_klicker1[user_id][0]
+                    else:
+                        kg = 0
                     ran = random.choice(range(100, 1001))
                     kg = round(kg + ran / 1000, 2)
                     sgrn = 185
                     srub = 505.05
                     grn = round(sgrn * kg, 2)
                     rub = round(grn * 2.73, 2)
+                    dict_klicker1[user_id][0:2] = kg, grn, rub
+                    with open('Значения кликера.txt', 'w') as dict_klicker:
+                        dict_klicker.write(str(dict_klicker1))
                     write_msg(peer_id, f'''Поздравляю! Вы получили {ran} г сала.
 Сала на складе: {kg} кг.
 Цена всего сала на складе: {grn} грн / {rub} ₽.
@@ -756,13 +759,123 @@ while 1:
 
                 # личный профиль
                 elif 'профиль' == text or 'профиль' == text[29:36]:
-                    write_msg(peer_id, f'''Ваш ID: {user_id}
-Вы собрали {kg} кг сала общей стоимостью {grn} грн / {rub} ₽''')
+                    if user_id in dict_klicker1:
+                        kg, grn, rub = dict_klicker1[user_id][0:2]
+                    else:
+                        kg, grn, rub = 0, 0, 0
+                    write_msg(peer_id, f'''Ваш ID: {user_id};
+Вы собрали {kg} кг сала общей стоимостью {grn} грн / {rub} ₽.''')
 
                 # топ по количеству сала на складе
                 elif 'топ' == text or 'топ' == text[29:32]:
-                    write_msg(peer_id, f'''Топ по количеству сала на складе:
-1) @id{user_id} ({name}) - {kg} кг сала''')
+                    if dict_klicker1 != {}:
+                        user_idm1 = 0
+                        user_idm2 = 0
+                        user_idm3 = 0
+                        user_idm4 = 0
+                        user_idm5 = 0
+                        name1 = 0
+                        name2 = 0
+                        name3 = 0
+                        name4 = 0
+                        name5 = 0
+                        mkg2 = 0
+                        mkg3 = 0
+                        mkg4 = 0
+                        mkg5 = 0
+                        skg = []
+                        for dic in dict_klicker1:
+                            key = dic.keys()
+                            kg = dic[key][0]
+                            skg.append(kg)
+                        skg.sort()
+                        lskg = len(skg)
+                        mkg1 = skg[-1]
+                        for dic in dict_klicker1:
+                            key = dic.keys()
+                            kg = dic[key][0]
+                            if kg == mkg1:
+                                user_idm1 = key
+                                if user_idm1 in dict_names1.keys():
+                                    name1 = dict_names1[user_idm1]
+                                else:
+                                    user = user_info(user_idm1)
+                                    name1 = user[0]['first_name'] + ' ' + user[0]['last_name']
+                        if lskg >= 2:
+                            mkg2 = skg[-2]
+                            for dic in dict_klicker1:
+                                key = dic.keys()
+                                kg = dic[key][0]
+                                if kg == mkg2:
+                                    user_idm2 = key
+                                    if user_idm2 in dict_names1.keys():
+                                        name2 = dict_names1[user_idm2]
+                                    else:
+                                        user = user_info(user_idm2)
+                                        name2 = user[0]['first_name'] + ' ' + user[0]['last_name']
+                        if lskg >= 3:
+                            mkg3 = skg[-3]
+                            for dic in dict_klicker1:
+                                key = dic.keys()
+                                kg = dic[key][0]
+                                if kg == mkg3:
+                                    user_idm3 = key
+                                    if user_idm3 in dict_names1.keys():
+                                        name3 = dict_names1[user_idm3]
+                                    else:
+                                        user = user_info(user_idm3)
+                                        name3 = user[0]['first_name'] + ' ' + user[0]['last_name']
+                        if lskg >= 4:
+                            mkg4 = skg[-4]
+                            for dic in dict_klicker1:
+                                key = dic.keys()
+                                kg = dic[key][0]
+                                if kg == mkg4:
+                                    user_idm4 = key
+                                    if user_idm4 in dict_names1.keys():
+                                        name4 = dict_names1[user_idm4]
+                                    else:
+                                        user = user_info(user_idm4)
+                                        name4 = user[0]['first_name'] + ' ' + user[0]['last_name']
+                        if lskg >= 5:
+                            mkg5 = skg[-5]
+                            for dic in dict_klicker1:
+                                key = dic.keys()
+                                kg = dic[key][0]
+                                if kg == mkg5:
+                                    user_idm5 = key
+                                    if user_idm5 in dict_names1.keys():
+                                        name5 = dict_names1[user_idm5]
+                                    else:
+                                        user = user_info(user_idm5)
+                                        name5 = user[0]['first_name'] + ' ' + user[0]['last_name']
+                        if user_idm2 == 0:
+                            write_msg(peer_id, f'''Топ по количеству сала на складе:
+1) @id{user_idm1} ({name1}) - {mkg1} кг сала.''')
+                        elif user_idm2 == 0 and user_idm3 == 0:
+                            write_msg(peer_id, f'''Топ по количеству сала на складе:
+1) @id{user_idm1} ({name1}) - {mkg1} кг сала;
+2) @id{user_idm2} ({name2}) - {mkg2} кг сала.''')
+                        elif user_idm2 == 0 and user_idm3 == 0 and user_idm4 == 0:
+                            write_msg(peer_id, f'''Топ по количеству сала на складе:
+1) @id{user_idm1} ({name1}) - {mkg1} кг сала;
+2) @id{user_idm2} ({name2}) - {mkg2} кг сала;
+3) @id{user_idm3} ({name3}) - {mkg3} кг сала.''')
+                        elif user_idm2 == 0 and user_idm3 == 0 and user_idm4 == 0 and user_idm5 == 0:
+                            write_msg(peer_id, f'''Топ по количеству сала на складе:
+1) @id{user_idm1} ({name1}) - {mkg1} кг сала;
+2) @id{user_idm2} ({name2}) - {mkg2} кг сала;
+3) @id{user_idm3} ({name3}) - {mkg3} кг сала;
+4) @id{user_idm4} ({name4}) - {mkg4} кг сала.''')
+                        elif user_idm5 != 0:
+                            write_msg(peer_id, f'''Топ по количеству сала на складе:
+1) @id{user_idm1} ({name1}) - {mkg1} кг сала;
+2) @id{user_idm2} ({name2}) - {mkg2} кг сала;
+3) @id{user_idm3} ({name3}) - {mkg3} кг сала;
+4) @id{user_idm4} ({name4}) - {mkg4} кг сала;
+5) @id{user_idm4} ({name4}) - {mkg4} кг сала.''')
+                    else:
+                        write_msg(peer_id, 'Ещё нет новых пользователей.')
 
                 # работа с разными айди:
 
