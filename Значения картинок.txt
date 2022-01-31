@@ -1,1 +1,1 @@
-{'cat': 22, 'dog': 8, 'neko': 45, 'other': 3}
+{'cat': 22, 'dog': 8, 'neko': 45, 'other': 4}
