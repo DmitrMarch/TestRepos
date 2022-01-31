@@ -41,21 +41,13 @@ def imgs_hashs(val):
 def similarity(hash2):
     return fuzz.token_sort_ratio(hash1, hash2)
 
-# значение картинки кота (все значения есть тут Значения картинок.txt)
+# получение номеров последних картинок из словаря Значения картинок.txt
 with open('Значения картинок.txt', 'r') as dict_values:
-    cat = eval(dict_values.read())['cat']
-
-# значение картинки собаки
-with open('Значения картинок.txt', 'r') as dict_values:
-    dog = eval(dict_values.read())['dog']
-
-# значение картинки кошкодевочки
-with open('Значения картинок.txt', 'r') as dict_values:
-    neko = eval(dict_values.read())['neko']
-
-# значение картинки из категории другое
-with open('Значения картинок.txt', 'r') as dict_values:
-    other = eval(dict_values.read())['other']
+    dict_values1 = eval(dict_values.read())
+    cat = dict_values1['cat']  # значение картинки кота
+    dog = dict_values1['dog']  # значение картинки собаки
+    neko = dict_values1['neko']  # значение картинки кошкодевочки
+    other = dict_values1['other']  # значение картинки из категории другое
 
 bot = '''Доступные команды бота:
 1⃣  Фотоопределитель - 
@@ -215,7 +207,7 @@ while 1:
                             handler.write(img)
                         img = Image.open('photo.jpg')
                         hash1 = str(imagehash.phash(img))
-                        file = 'Cats'  # папка с котами
+                        file = 'Cats'  # папка с котами (все папки прилагаются)
                         cat_imgs = os.listdir(file)
                         cat_url_imgs = list(map(imgs_urls, cat_imgs))
                         cat_open_imgs = list(map(imgs_open, cat_url_imgs))
@@ -227,13 +219,13 @@ while 1:
                         dog_open_imgs = list(map(imgs_open, dog_url_imgs))
                         dog_hashs = list(map(imgs_hashs, dog_open_imgs))
                         dog_distances = list(map(similarity, dog_hashs))
-                        file = 'Neko'  # папка с неко тян
+                        file = 'Nekot'  # папка с неко тян
                         neko_imgs = os.listdir(file)
                         neko_url_imgs = list(map(imgs_urls, neko_imgs))
                         neko_open_imgs = list(map(imgs_open, neko_url_imgs))
                         neko_hashs = list(map(imgs_hashs, neko_open_imgs))
                         neko_distances = list(map(similarity, neko_hashs))
-                        file = 'Other'  # папка с пикчами из категории другое
+                        file = 'Others'  # папка с пикчами из категории другое
                         other_imgs = os.listdir(file)
                         other_url_imgs = list(map(imgs_urls, other_imgs))
                         other_open_imgs = list(map(imgs_open, other_url_imgs))
@@ -274,6 +266,9 @@ while 1:
                                     text = event.text.lower()
                                     if 'да' == text and user_id2 == user_id1:
                                         cat += 1
+                                        dict_values1['cat'] = cat
+                                        with open('Значения картинок.txt', 'w') as dict_values:
+                                            dict_values.write(str(dict_values1))
                                         shutil.move('photo.jpg', f'Cats/cat_{cat}.jpg')
                                         write_msg(peer_id, 'Хорошо, распознавание котов улучшилось.')
                                         break
@@ -294,28 +289,43 @@ while 1:
                                                 if 'кот' in text or 'кошка' == text or 'кошки' == text or 'кошак' in \
                                                         text and user_id2 == user_id1:
                                                     cat += 1
+                                                    dict_values1['cat'] = cat
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Cats/cat_{cat}.jpg')
                                                     write_msg(peer_id, 'Хорошо, распознавание котов улучшилось.')
                                                     break
                                                 elif 'собак' in text or 'щено' in text or 'пес' in text or 'пёс' in \
                                                         text and user_id2 == user_id1:
                                                     dog += 1
+                                                    dict_values1['dog'] = dog
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Dogs/dog_{dog}.jpg')
                                                     write_msg(peer_id, 'Хорошо, распознавание собак улучшилось.')
                                                     break
                                                 elif 'неко' in text or 'кошкодевочка' == text or 'кошкодевочки' == \
                                                         text and user_id2 == user_id1:
                                                     neko += 1
+                                                    dict_values1['neko'] = neko
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Neko/neko_{neko}.jpg')
                                                     write_msg(peer_id, 'Хорошо, распознавание кошкодевочек улучшилось.')
                                                     break
                                                 elif text == other_value:
                                                     other += 1
+                                                    dict_values1['other'] = other
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Other/{text}_{other}.jpg')
                                                     write_msg(peer_id, f'Распознавание фотографий из категории '
                                                                        f'"{text}" улучшено')
                                                 elif user_id2 == user_id1:
                                                     other += 1
+                                                    dict_values1['other'] = other
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Other/{text}_{other}.jpg')
                                                     write_msg(peer_id, 'Бот ещё не научился его(её) распознавать, фото '
                                                                        'добавлено в папку с будущими фотографиями для '
@@ -323,14 +333,17 @@ while 1:
                                                     break
                                         break
                         elif dog_distance >= 1:
-                            write_msg(peer_id, 'Бот обнаружил собаку на фотографии, это правильно? Напишите Да или '
-                                               'Нет.')
+                            write_msg(peer_id, 'Бот обнаружил собаку на фотографии, это правильно? Напишите '
+                                               'Да или Нет.')
                             for event in VkLongPoll(session).listen():
                                 if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
                                     user_id2 = event.user_id
                                     text = event.text.lower()
                                     if 'да' == text and user_id2 == user_id1:
                                         dog += 1
+                                        dict_values1['dog'] = dog
+                                        with open('Значения картинок.txt', 'w') as dict_values:
+                                            dict_values.write(str(dict_values1))
                                         shutil.move('photo.jpg', f'Dogs/dog_{dog}.jpg')
                                         write_msg(peer_id, 'Хорошо, распознавание собак улучшилось.')
                                         break
@@ -346,33 +359,46 @@ while 1:
                                                         value = value[:value.index('_')]
                                                     else:
                                                         value = value[:value.index('.')]
-                                                    if text == value:
-                                                        other_value = value
                                                 if 'кот' in text or 'кошка' == text or 'кошки' == text or 'кошак' in \
                                                         text and user_id2 == user_id1:
                                                     cat += 1
+                                                    dict_values1['cat'] = cat
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Cats/cat_{cat}.jpg')
                                                     write_msg(peer_id, 'Хорошо, распознавание котов улучшилось.')
                                                     break
                                                 elif 'собак' in text or 'щено' in text or 'пес' in text or 'пёс' in \
                                                         text and user_id2 == user_id1:
                                                     dog += 1
+                                                    dict_values1['dog'] = dog
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Dogs/dog_{dog}.jpg')
                                                     write_msg(peer_id, 'Хорошо, распознавание собак улучшилось.')
                                                     break
                                                 elif 'неко' in text or 'кошкодевочка' == text or 'кошкодевочки' == \
                                                         text and user_id2 == user_id1:
                                                     neko += 1
+                                                    dict_values1['neko'] = neko
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Neko/neko_{neko}.jpg')
                                                     write_msg(peer_id, 'Хорошо, распознавание кошкодевочек улучшилось.')
                                                     break
                                                 elif text == other_value:
                                                     other += 1
+                                                    dict_values1['other'] = other
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Other/{text}_{other}.jpg')
                                                     write_msg(peer_id, f'Распознавание фотографий из категории '
                                                                        f'"{text}" улучшено')
                                                 elif user_id2 == user_id1:
                                                     other += 1
+                                                    dict_values1['other'] = other
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Other/{text}_{other}.jpg')
                                                     write_msg(peer_id, 'Бот ещё не научился его(её) распознавать, фото '
                                                                        'добавлено в папку с будущими фотографиями для '
@@ -388,6 +414,9 @@ while 1:
                                     text = event.text.lower()
                                     if 'да' == text and user_id2 == user_id1:
                                         neko += 1
+                                        dict_values1['neko'] = neko
+                                        with open('Значения картинок.txt', 'w') as dict_values:
+                                            dict_values.write(str(dict_values1))
                                         shutil.move('photo.jpg', f'Neko/neko_{neko}.jpg')
                                         write_msg(peer_id, 'Хорошо, распознавание кошкодевочек улучшилось.')
                                         break
@@ -408,28 +437,43 @@ while 1:
                                                 if 'кот' in text or 'кошка' == text or 'кошки' == text or 'кошак' in \
                                                         text and user_id2 == user_id1:
                                                     cat += 1
+                                                    dict_values1['cat'] = cat
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Cats/cat_{cat}.jpg')
                                                     write_msg(peer_id, 'Хорошо, распознавание котов улучшилось.')
                                                     break
                                                 elif 'собак' in text or 'щено' in text or 'пес' in text or 'пёс' in \
                                                         text and user_id2 == user_id1:
                                                     dog += 1
+                                                    dict_values1['dog'] = dog
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Dogs/dog_{dog}.jpg')
                                                     write_msg(peer_id, 'Хорошо, распознавание собак улучшилось.')
                                                     break
                                                 elif 'неко' in text or 'кошкодевочка' == text or 'кошкодевочки' == \
                                                         text and user_id2 == user_id1:
                                                     neko += 1
+                                                    dict_values1['neko'] = neko
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Neko/neko_{neko}.jpg')
                                                     write_msg(peer_id, 'Хорошо, распознавание кошкодевочек улучшилось.')
                                                     break
                                                 elif text == other_value:
                                                     other += 1
+                                                    dict_values1['other'] = other
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Other/{text}_{other}.jpg')
                                                     write_msg(peer_id, f'Распознавание фотографий из категории '
                                                                        f'"{text}" улучшено')
                                                 elif user_id2 == user_id1:
                                                     other += 1
+                                                    dict_values1['other'] = other
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Other/{text}_{other}.jpg')
                                                     write_msg(peer_id, 'Бот ещё не научился его(её) распознавать, фото '
                                                                        'добавлено в папку с будущими фотографиями для '
@@ -450,6 +494,9 @@ while 1:
                                     text = event.text.lower()
                                     if 'да' == text and user_id2 == user_id1:
                                         other += 1
+                                        dict_values1['other'] = other
+                                        with open('Значения картинок.txt', 'w') as dict_values:
+                                            dict_values.write(str(dict_values1))
                                         shutil.move('photo.jpg', f'Other/{text}_{other}.jpg')
                                         write_msg(peer_id, f'Распознавание фотографий из категории "{other_name2}" '
                                                            f'улучшено.')
@@ -471,28 +518,43 @@ while 1:
                                                 if 'кот' in text or 'кошка' == text or 'кошки' == text or 'кошак' in \
                                                         text and user_id2 == user_id1:
                                                     cat += 1
+                                                    dict_values1['cat'] = cat
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Cats/cat_{cat}.jpg')
                                                     write_msg(peer_id, 'Хорошо, распознавание котов улучшилось.')
                                                     break
                                                 elif 'собак' in text or 'щено' in text or 'пес' in text or 'пёс' in \
                                                         text and user_id2 == user_id1:
                                                     dog += 1
+                                                    dict_values1['dog'] = dog
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Dogs/dog_{dog}.jpg')
                                                     write_msg(peer_id, 'Хорошо, распознавание собак улучшилось.')
                                                     break
                                                 elif 'неко' in text or 'кошкодевочка' == text or 'кошкодевочки' == \
                                                         text and user_id2 == user_id1:
                                                     neko += 1
+                                                    dict_values1['neko'] = neko
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Neko/neko_{neko}.jpg')
                                                     write_msg(peer_id, 'Хорошо, распознавание кошкодевочек улучшилось.')
                                                     break
                                                 elif text == other_value:
                                                     other += 1
+                                                    dict_values1['other'] = other
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Other/{text}_{other}.jpg')
                                                     write_msg(peer_id, f'Распознавание фотографий из категории '
                                                                        f'"{text}" улучшено')
                                                 elif user_id2 == user_id1:
                                                     other += 1
+                                                    dict_values1['other'] = other
+                                                    with open('Значения картинок.txt', 'w') as dict_values:
+                                                        dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Other/{text}_{other}.jpg')
                                                     write_msg(peer_id, 'Бот ещё не научился его(её) распознавать, фото '
                                                                        'добавлено в папку с будущими фотографиями для '
@@ -513,30 +575,45 @@ while 1:
                                             value = value[:value.index('.')]
                                         if text == value:
                                             other_value = value
-                                    if 'кот' in text or 'кошка' == text or 'кошки' == text or 'кошак' in text and \
-                                            user_id2 == user_id1:
+                                    if 'кот' in text or 'кошка' == text or 'кошки' == text or 'кошак' in \
+                                            text and user_id2 == user_id1:
                                         cat += 1
+                                        dict_values1['cat'] = cat
+                                        with open('Значения картинок.txt', 'w') as dict_values:
+                                            dict_values.write(str(dict_values1))
                                         shutil.move('photo.jpg', f'Cats/cat_{cat}.jpg')
                                         write_msg(peer_id, 'Хорошо, распознавание котов улучшилось.')
                                         break
                                     elif 'собак' in text or 'щено' in text or 'пес' in text or 'пёс' in text and \
                                             user_id2 == user_id1:
                                         dog += 1
+                                        dict_values1['dog'] = dog
+                                        with open('Значения картинок.txt', 'w') as dict_values:
+                                            dict_values.write(str(dict_values1))
                                         shutil.move('photo.jpg', f'Dogs/dog_{dog}.jpg')
                                         write_msg(peer_id, 'Хорошо, распознавание собак улучшилось.')
                                         break
                                     elif 'неко' in text or 'кошкодевочка' == text or 'кошкодевочки' == text and \
                                             user_id2 == user_id1:
                                         neko += 1
+                                        dict_values1['neko'] = neko
+                                        with open('Значения картинок.txt', 'w') as dict_values:
+                                            dict_values.write(str(dict_values1))
                                         shutil.move('photo.jpg', f'Neko/neko_{neko}.jpg')
                                         write_msg(peer_id, 'Хорошо, распознавание кошкодевочек улучшилось.')
                                         break
                                     elif text == other_value:
                                         other += 1
+                                        dict_values1['other'] = other
+                                        with open('Значения картинок.txt', 'w') as dict_values:
+                                            dict_values.write(str(dict_values1))
                                         shutil.move('photo.jpg', f'Other/{text}_{other}.jpg')
                                         write_msg(peer_id, f'Распознавание фотографий из категории "{text}" улучшено')
                                     elif user_id2 == user_id1:
                                         other += 1
+                                        dict_values1['other'] = other
+                                        with open('Значения картинок.txt', 'w') as dict_values:
+                                            dict_values.write(str(dict_values1))
                                         shutil.move('photo.jpg', f'Other/{text}_{other}.jpg')
                                         write_msg(peer_id, 'Бот ещё не научился его(её) распознавать, фото добавлено в '
                                                            'папку с будущими фотографиями для распознавания.')
