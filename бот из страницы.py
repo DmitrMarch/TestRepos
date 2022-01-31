@@ -213,7 +213,7 @@ while 1:
                         cat_open_imgs = list(map(imgs_open, cat_url_imgs))
                         cat_hashs = list(map(imgs_hashs, cat_open_imgs))
                         cat_distances = list(map(similarity, cat_hashs))
-                        file = 'Dogs'  # папка с соаками
+                        file = 'Dogs'  # папка с собаками
                         dog_imgs = os.listdir(file)
                         dog_url_imgs = list(map(imgs_urls, dog_imgs))
                         dog_open_imgs = list(map(imgs_open, dog_url_imgs))
