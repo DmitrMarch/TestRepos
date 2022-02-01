@@ -154,9 +154,12 @@ while 1:
     if ex == 1:
         for event in VkLongPoll(session).listen():
             if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
-                text = event.text.lower()
-                user_id = event.user_id
-                peer_id = event.peer_id
+                text = event.text.lower()  # текст сообщения
+                peer_id = event.peer_id  # универсальный айди чата (для группы, беседы или пользователя)
+                try:  # проверка на наличие айди пользователя
+                    user_id = event.user_id  # айди пользователя
+                except AttributeError:  # что бот делает в случае, если его нет
+                    continue
                 if 'start' == text:
                     if user_id == "ТВОЙ АЙДИ":  # твой айди пользователя🤡
                         write_msg(peer_id, '☕Запуск бота☕')
@@ -167,7 +170,10 @@ while 1:
         if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:  # проверка события
             text = event.text.lower()  # текст сообщения
             peer_id = event.peer_id  # универсальный айди чата (для группы, беседы или пользователя)
-            user_id = event.user_id  # айди пользователя
+            try:  # проверка на наличие айди пользователя
+                user_id = event.user_id  # айди пользователя
+            except AttributeError:  # что бот делает в случае, если его нет
+                continue
             atchs = event.attachments  # вложения
 
             # клавиатура выбора бота
