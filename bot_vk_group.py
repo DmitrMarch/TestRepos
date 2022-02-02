@@ -402,11 +402,17 @@ while 1:
                                                     with open('Значения картинок.txt', 'w') as dict_values:
                                                         dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Others/{text}_{other}.jpg')
-                                                    write_msg(peer_id,
-                                                              f'Распознавание фотографий из категории "{text}" '
-                                                              f'улучшено.')
+                                                    write_msg(peer_id, f'Распознавание фотографий из категории '
+                                                                       f'"{text}" улучшено.')
                                                     break
-                                                elif user_id2 == user_id1:
+                                                elif ('/' == text or '\\' == text or '&quot;' == text or '&lt;' ==
+                                                      text or '&gt;' == text or '|' == text or '*' == text or '?' ==
+                                                      text or ':' == text) and user_id2 == user_id1:
+                                                    write_msg(peer_id, 'Нельзя использовать символы /, \\, *, :, ?, <, '
+                                                                       '>, |, ".')
+                                                elif user_id2 == user_id1 and text != 'нельзя использовать символы ' \
+                                                                                      '/, \\, *, :, ?, &lt;, &gt;, ' \
+                                                                                      '|, &quot;.':
                                                     other += 1
                                                     dict_values1['other'] = other
                                                     with open('Значения картинок.txt', 'w') as dict_values:
@@ -416,11 +422,6 @@ while 1:
                                                                        'добавлено в папку с будущими фотографиями для '
                                                                        'распознавания.')
                                                     break
-                                                elif ('/' in text or '\\' in text or '"' in text or '<' in text or '>'
-                                                      in text or '|' in text or '*' in text or '?' in text or ':' in
-                                                      text) and user_id2 == user_id1:
-                                                    write_msg(peer_id, 'Нельзя использовать символы /, \\, *, :, ?, <, '
-                                                                       '>, |, ".')
                                         break
                         elif dog_distance >= 1:
                             write_msg(peer_id, 'Бот обнаружил собаку на фотографии, это правильно?', keyboard4)
@@ -483,11 +484,17 @@ while 1:
                                                     with open('Значения картинок.txt', 'w') as dict_values:
                                                         dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Others/{text}_{other}.jpg')
-                                                    write_msg(peer_id,
-                                                              f'Распознавание фотографий из категории "{text}" '
-                                                              f'улучшено.')
+                                                    write_msg(peer_id, f'Распознавание фотографий из категории '
+                                                                       f'"{text}" улучшено.')
                                                     break
-                                                elif user_id2 == user_id1:
+                                                elif ('/' == text or '\\' == text or '&quot;' == text or '&lt;' ==
+                                                      text or '&gt;' == text or '|' == text or '*' == text or '?' ==
+                                                      text or ':' == text) and user_id2 == user_id1:
+                                                    write_msg(peer_id, 'Нельзя использовать символы /, \\, *, :, ?, <, '
+                                                                       '>, |, ".')
+                                                elif user_id2 == user_id1 and text != 'нельзя использовать символы ' \
+                                                                                      '/, \\, *, :, ?, &lt;, &gt;, ' \
+                                                                                      '|, &quot;.':
                                                     other += 1
                                                     dict_values1['other'] = other
                                                     with open('Значения картинок.txt', 'w') as dict_values:
@@ -497,11 +504,6 @@ while 1:
                                                                        'добавлено в папку с будущими фотографиями для '
                                                                        'распознавания.')
                                                     break
-                                                elif ('/' in text or '\\' in text or '"' in text or '<' in text or '>'
-                                                      in text or '|' in text or '*' in text or '?' in text or ':' in
-                                                      text) and user_id2 == user_id1:
-                                                    write_msg(peer_id, 'Нельзя использовать символы /, \\, *, :, ?, <, '
-                                                                       '>, |, ".')
                                         break
                         elif neko_distance >= 1:
                             write_msg(peer_id, 'Бот обнаружил кошкодевочку на фотографии, это правильно?', keyboard4)
@@ -564,11 +566,17 @@ while 1:
                                                     with open('Значения картинок.txt', 'w') as dict_values:
                                                         dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Others/{text}_{other}.jpg')
-                                                    write_msg(peer_id,
-                                                              f'Распознавание фотографий из категории "{text}" '
-                                                              f'улучшено.')
+                                                    write_msg(peer_id, f'Распознавание фотографий из категории '
+                                                                       f'"{text}" улучшено.')
                                                     break
-                                                elif user_id2 == user_id1:
+                                                elif ('/' == text or '\\' == text or '&quot;' == text or '&lt;' ==
+                                                      text or '&gt;' == text or '|' == text or '*' == text or '?' ==
+                                                      text or ':' == text) and user_id2 == user_id1:
+                                                    write_msg(peer_id, 'Нельзя использовать символы /, \\, *, :, ?, <, '
+                                                                       '>, |, ".')
+                                                elif user_id2 == user_id1 and text != 'нельзя использовать символы ' \
+                                                                                      '/, \\, *, :, ?, &lt;, &gt;, ' \
+                                                                                      '|, &quot;.':
                                                     other += 1
                                                     dict_values1['other'] = other
                                                     with open('Значения картинок.txt', 'w') as dict_values:
@@ -578,11 +586,6 @@ while 1:
                                                                        'добавлено в папку с будущими фотографиями для '
                                                                        'распознавания.')
                                                     break
-                                                elif ('/' in text or '\\' in text or '"' in text or '<' in text or '>'
-                                                      in text or '|' in text or '*' in text or '?' in text or ':' in
-                                                      text) and user_id2 == user_id1:
-                                                    write_msg(peer_id, 'Нельзя использовать символы /, \\, *, :, ?, <, '
-                                                                       '>, |, ".')
                                         break
                         elif other_distance >= 1:
                             mnum = max(other_distances)
@@ -652,11 +655,17 @@ while 1:
                                                     with open('Значения картинок.txt', 'w') as dict_values:
                                                         dict_values.write(str(dict_values1))
                                                     shutil.move('photo.jpg', f'Others/{text}_{other}.jpg')
-                                                    write_msg(peer_id,
-                                                              f'Распознавание фотографий из категории "{text}" '
-                                                              f'улучшено.')
+                                                    write_msg(peer_id, f'Распознавание фотографий из категории '
+                                                                       f'"{text}" улучшено.')
                                                     break
-                                                elif user_id2 == user_id1:
+                                                elif ('/' == text or '\\' == text or '&quot;' == text or '&lt;' ==
+                                                      text or '&gt;' == text or '|' == text or '*' == text or '?' ==
+                                                      text or ':' == text) and user_id2 == user_id1:
+                                                    write_msg(peer_id, 'Нельзя использовать символы /, \\, *, :, ?, <, '
+                                                                       '>, |, ".')
+                                                elif user_id2 == user_id1 and text != 'нельзя использовать символы ' \
+                                                                                      '/, \\, *, :, ?, &lt;, &gt;, ' \
+                                                                                      '|, &quot;.':
                                                     other += 1
                                                     dict_values1['other'] = other
                                                     with open('Значения картинок.txt', 'w') as dict_values:
@@ -666,11 +675,6 @@ while 1:
                                                                        'добавлено в папку с будущими фотографиями для '
                                                                        'распознавания.')
                                                     break
-                                                elif ('/' in text or '\\' in text or '"' in text or '<' in text or '>'
-                                                      in text or '|' in text or '*' in text or '?' in text or ':' in
-                                                      text) and user_id2 == user_id1:
-                                                    write_msg(peer_id, 'Нельзя использовать символы /, \\, *, :, ?, <, '
-                                                                       '>, |, ".')
                                         break
                         else:
                             write_msg(peer_id, 'Бот не смог распознать фотографию.\nНапишите, что же на ней.')
@@ -719,11 +723,17 @@ while 1:
                                         with open('Значения картинок.txt', 'w') as dict_values:
                                             dict_values.write(str(dict_values1))
                                         shutil.move('photo.jpg', f'Others/{text}_{other}.jpg')
-                                        write_msg(peer_id,
-                                                  f'Распознавание фотографий из категории "{text}" '
-                                                  f'улучшено.')
+                                        write_msg(peer_id, f'Распознавание фотографий из категории '
+                                                           f'"{text}" улучшено.')
                                         break
-                                    elif user_id2 == user_id1:
+                                    elif ('/' == text or '\\' == text or '&quot;' == text or '&lt;' ==
+                                          text or '&gt;' == text or '|' == text or '*' == text or '?' ==
+                                          text or ':' == text) and user_id2 == user_id1:
+                                        write_msg(peer_id, 'Нельзя использовать символы /, \\, *, :, ?, <, '
+                                                           '>, |, ".')
+                                    elif user_id2 == user_id1 and text != 'нельзя использовать символы ' \
+                                                                          '/, \\, *, :, ?, &lt;, &gt;, ' \
+                                                                          '|, &quot;.':
                                         other += 1
                                         dict_values1['other'] = other
                                         with open('Значения картинок.txt', 'w') as dict_values:
@@ -733,11 +743,6 @@ while 1:
                                                            'добавлено в папку с будущими фотографиями для '
                                                            'распознавания.')
                                         break
-                                    elif ('/' in text or '\\' in text or '"' in text or '<' in text or '>'
-                                          in text or '|' in text or '*' in text or '?' in text or ':' in
-                                          text) and user_id2 == user_id1:
-                                        write_msg(peer_id, 'Нельзя использовать символы /, \\, *, :, ?, <, '
-                                                           '>, |, ".')
                     except requests.exceptions.InvalidURL:
                         write_msg(peer_id, '🚫Ошибка, некорректная ссылка🚫')
                     except PIL.UnidentifiedImageError:
