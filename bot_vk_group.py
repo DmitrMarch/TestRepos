@@ -22,7 +22,7 @@ from math import e, pi, sqrt, log, sin, cos, tan, factorial as f
 mod = abs
 
 # словарь имён (его можно посмотреть тут Словарь имён.txt)
-with open('Словарь имён.txt', 'r') as dict_names:
+with open('Словарь имён.txt', 'r', encoding='utf-8') as dict_names:
     dict_names1 = eval(dict_names.read())
 
 # значение включения (ex = 0) / выключения проги (ex = 1)
