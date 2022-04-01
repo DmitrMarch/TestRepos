@@ -812,9 +812,9 @@ while 1:
                     with open('Значения кликера.txt', 'w') as dict_klicker:
                         dict_klicker.write(str(dict_klicker1))
                     write_msg(peer_id, f'''Поздравляю! Вы получили {ran} г сала.
-    Сала на складе: {kg} кг.
-    Цена всего сала на складе: {grn} грн / {rub} ₽.
-    Цена за кг: {sgrn} грн / {srub} ₽.''')
+Сала на складе: {kg} кг.
+Цена всего сала на складе: {grn} грн / {rub} ₽.
+Цена за кг: {sgrn} грн / {srub} ₽.''')
 
                 # личный профиль
                 elif 'профиль' == text or 'профиль' == text[29:36]:
@@ -823,7 +823,7 @@ while 1:
                     else:
                         kg, grn, rub = 0, 0, 0
                     write_msg(peer_id, f'''Ваш ID: {user_id};
-    Вы собрали {kg} кг сала общей стоимостью {grn} грн / {rub} ₽.''')
+Вы собрали {kg} кг сала общей стоимостью {grn} грн / {rub} ₽.''')
 
                 # топ по количеству сала на складе
                 elif 'топ' == text or 'топ' == text[29:32]:
@@ -882,7 +882,7 @@ while 1:
                                         name3 = user[0]['first_name'] + ' ' + user[0]['last_name']
                         if lskg >= 4:
                             mkg4 = skg[-4]
-                            for tup in dict_klicker1:
+                            for tup in dict_klicker1.items():
                                 kg = tup[1][0]
                                 if kg == mkg4:
                                     user_idm4 = tup[0]
@@ -893,7 +893,7 @@ while 1:
                                         name4 = user[0]['first_name'] + ' ' + user[0]['last_name']
                         if lskg >= 5:
                             mkg5 = skg[-5]
-                            for tup in dict_klicker1:
+                            for tup in dict_klicker1.items():
                                 kg = tup[1][0]
                                 if kg == mkg5:
                                     user_idm5 = tup[0]
@@ -902,31 +902,31 @@ while 1:
                                     else:
                                         user = user_info(user_idm5)
                                         name5 = user[0]['first_name'] + ' ' + user[0]['last_name']
-                        if user_idm2 == 0:
+                        if user_idm1 != 0 and user_idm2 == 0:
                             write_msg(peer_id, f'''Топ по количеству сала на складе:
-    1) @id{user_idm1} ({name1}) - {mkg1} кг сала.''')
-                        elif user_idm2 == 0 and user_idm3 == 0:
+1) @id{user_idm1} ({name1}) - {mkg1} кг сала.''')
+                        elif user_idm2 != 0 and user_idm3 == 0:
                             write_msg(peer_id, f'''Топ по количеству сала на складе:
-    1) @id{user_idm1} ({name1}) - {mkg1} кг сала;
-    2) @id{user_idm2} ({name2}) - {mkg2} кг сала.''')
-                        elif user_idm2 == 0 and user_idm3 == 0 and user_idm4 == 0:
+1) @id{user_idm1} ({name1}) - {mkg1} кг сала;
+2) @id{user_idm2} ({name2}) - {mkg2} кг сала.''')
+                        elif user_idm3 != 0 and user_idm4 == 0:
                             write_msg(peer_id, f'''Топ по количеству сала на складе:
-    1) @id{user_idm1} ({name1}) - {mkg1} кг сала;
-    2) @id{user_idm2} ({name2}) - {mkg2} кг сала;
-    3) @id{user_idm3} ({name3}) - {mkg3} кг сала.''')
-                        elif user_idm2 == 0 and user_idm3 == 0 and user_idm4 == 0 and user_idm5 == 0:
+1) @id{user_idm1} ({name1}) - {mkg1} кг сала;
+2) @id{user_idm2} ({name2}) - {mkg2} кг сала;
+3) @id{user_idm3} ({name3}) - {mkg3} кг сала.''')
+                        elif user_idm4 != 0 and user_idm5 == 0:
                             write_msg(peer_id, f'''Топ по количеству сала на складе:
-    1) @id{user_idm1} ({name1}) - {mkg1} кг сала;
-    2) @id{user_idm2} ({name2}) - {mkg2} кг сала;
-    3) @id{user_idm3} ({name3}) - {mkg3} кг сала;
-    4) @id{user_idm4} ({name4}) - {mkg4} кг сала.''')
+1) @id{user_idm1} ({name1}) - {mkg1} кг сала;
+2) @id{user_idm2} ({name2}) - {mkg2} кг сала;
+3) @id{user_idm3} ({name3}) - {mkg3} кг сала;
+4) @id{user_idm4} ({name4}) - {mkg4} кг сала.''')
                         elif user_idm5 != 0:
                             write_msg(peer_id, f'''Топ по количеству сала на складе:
-    1) @id{user_idm1} ({name1}) - {mkg1} кг сала;
-    2) @id{user_idm2} ({name2}) - {mkg2} кг сала;
-    3) @id{user_idm3} ({name3}) - {mkg3} кг сала;
-    4) @id{user_idm4} ({name4}) - {mkg4} кг сала;
-    5) @id{user_idm4} ({name4}) - {mkg4} кг сала.''')
+1) @id{user_idm1} ({name1}) - {mkg1} кг сала;
+2) @id{user_idm2} ({name2}) - {mkg2} кг сала;
+3) @id{user_idm3} ({name3}) - {mkg3} кг сала;
+4) @id{user_idm4} ({name4}) - {mkg4} кг сала;
+5) @id{user_idm4} ({name4}) - {mkg4} кг сала.''')
                     else:
                         write_msg(peer_id, 'Ещё нет новых пользователей.')
 
@@ -969,15 +969,14 @@ while 1:
                 # команды Калькулятора
                 elif 'реши ' == text[:5]:
                     try:
-                        string = text.replace('реши ', '')
-                        if ',' in string:
-                            string = string.replace(',', '.')
-                        b = 'Ответ: ' + str(eval(string))
-                        if '.0' == b[-2:]:
-                            c = b.replace('.0', '')
-                            write_msg(peer_id, c)
+                        b = text.replace('реши ', '')
+                        c = str(float((eval(b))))
+                        if '.0' in c[-2:]:
+                            c = int(float(c))
+                            write_msg(peer_id, f'Ответ: {c}')
                         else:
-                            write_msg(peer_id, b)
+                            c = float(c)
+                            write_msg(peer_id, f'Ответ: {c}')
                     except NameError:
                         write_msg(peer_id, '🚫Ошибка, проверьте пример🚫')
                     except SyntaxError:
@@ -986,6 +985,8 @@ while 1:
                         write_msg(peer_id, '🚫Ошибка, проверьте пример🚫')
                     except ZeroDivisionError:
                         write_msg(peer_id, '🚫На 0 делить нельзя🚫')
+                    except ValueError:
+                        write_msg(peer_id, '🚫Ошибка, проверьте пример🚫')
 
                 # команды Рандомайзера:
 
