@@ -774,15 +774,14 @@ while 1:
                 # команды Калькулятора
                 elif 'реши ' == text[:5]:
                     try:
-                        string = text.replace('реши ', '')
-                        if ',' in string:
-                            string = string.replace(',', '.')
-                        b = 'Ответ: ' + str(eval(string))
-                        if '.0' == b[-2:]:
-                            c = b.replace('.0', '')
-                            write_msg(peer_id, c)
+                        b = text.replace('реши ', '')
+                        c = str(float((eval(b))))
+                        if '.0' in c[-2:]:
+                            c = int(float(c))
+                            write_msg(peer_id, f'Ответ: {c}')
                         else:
-                            write_msg(peer_id, b)
+                            c = float(c)
+                            write_msg(peer_id, f'Ответ: {c}')
                     except NameError:
                         write_msg(peer_id, '🚫Ошибка, проверьте пример🚫')
                     except SyntaxError:
@@ -791,6 +790,8 @@ while 1:
                         write_msg(peer_id, '🚫Ошибка, проверьте пример🚫')
                     except ZeroDivisionError:
                         write_msg(peer_id, '🚫На 0 делить нельзя🚫')
+                    except ValueError:
+                        write_msg(peer_id, '🚫Ошибка, проверьте пример🚫')
 
                 # команды Рандомайзера:
 
