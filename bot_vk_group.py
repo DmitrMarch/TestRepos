@@ -1,5 +1,3 @@
-# !!!!!ЗНАЧКОМ 🤡 ПОМЕЧЕНЫ МЕСТА, ГДЕ НУЖНА ЗМЕНА!!!!!
-
 # для связи с сервером вк
 import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
@@ -56,7 +54,8 @@ bot = '''🤖 Бот 🤖
 7⃣  Чужой числовой id - Id 
 👉короткий адрес👈;
 8⃣  Числовой id группы - Group id 
-👉короткий адрес👈.
+👉короткий адрес👈;
+9⃣  Обратная раскладка - Раскладка 👉Текст👈.
 ❗P.s. короткий адрес указывайте без @.'''
 
 calc = '''❎ Калькулятор ❎
@@ -83,7 +82,7 @@ calc = '''❎ Калькулятор ❎
 🔟 Модуль из числа - 
 👉mod(число)👈.
 ❗P.s. ввод примера - Реши 
-👉пример👈.'''
+👉пример👈; в десятичных дробях используйте 👉.👈 вместо запятой.'''
 
 rand = '''❓ Рандомайзер ❓
 Доступные команды рандомайзера:
@@ -96,10 +95,12 @@ rand = '''❓ Рандомайзер ❓
 количество чисел или слов в диапазоне или списке; числа в диапазоне пишутся от и до, например, от 1 до 
 10 - это числа с 1 по 9.'''
 
-# авторизация с помощью токена группы🤡
-session = vk_api.VkApi(token="СЮДА СВОЙ ТОКЕН")  # его можно получить в настройках сообщества во вкладке Работа с API,
-# где надо сначала включить LongPool и выбрать нужные типы событий, а также включить сообщения во вкладке Сообщения,
-# где есть подвкладка Настройки для бота, только потом создавайте токен
+# английская и русская раскладки
+ea = list(r"qwertyuiop[]asdfghjkl;'zxcvbnm,./`")
+ra = list(r"йцукенгшщзхъфывапролджэячсмитьбю.ё")
+
+# авторизация с помощью токена группы
+session = vk_api.VkApi(token="0792e4c0d30ceee6db3e84c8dd935dfc4ec740e799ea5ca89d1d87f9b41d9bd229d2a296f425ad9d8a4f4")
 
 # превращение картинок в хэш
 def imgs_urls(val):
@@ -156,7 +157,7 @@ while 1:
         # проверка трай-эксепт секретного цикла фор на потерю соединения с сервером вк
         try:
             for event in VkLongPoll(session).listen():
-                if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                     text = event.text.lower()  # текст сообщения
                     peer_id = event.peer_id  # универсальный айди чата (для группы, беседы или пользователя)
                     try:  # проверка на наличие айди пользователя
@@ -175,7 +176,7 @@ while 1:
 
         # бот слушает события от сервера вк
         for event in VkLongPoll(session).listen():
-            if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:  # проверка события
+            if event.type == VkEventType.MESSAGE_NEW and event.to_me:  # проверка события
                 text = event.text.lower()  # текст сообщения
                 peer_id = event.peer_id  # универсальный айди чата (для группы, беседы или пользователя)
                 try:  # проверка на наличие айди пользователя
@@ -225,9 +226,8 @@ while 1:
 
                 # выбор Основного Бота
                 elif 'основной бот' == text or 'основной бот' == text[29:41]:
-                    write_msg(peer_id,
-                              'Основной Бот.\nВыберите кнопку:\nP.s. для вывода информации о кнопках нажмите 👉Info👈.',
-                              keyboard2)
+                    write_msg(peer_id, 'Основной Бот.\nВыберите кнопку:\nP.s. для вывода информации о кнопках нажмите '
+                                       '👉Info👈.', keyboard2)
 
                 # выбор Кликер Бота
                 elif 'кликер бот' == text or 'кликер бот' == text[29:39]:
@@ -290,25 +290,25 @@ while 1:
                             handler.write(img)
                         img = Image.open('photo.jpg')
                         hash1 = str(imagehash.phash(img))
-                        file = 'Cats'  # папка с котами (все папки прилагаются)
+                        file = 'Cats'
                         cat_imgs = os.listdir(file)
                         cat_url_imgs = list(map(imgs_urls, cat_imgs))
                         cat_open_imgs = list(map(imgs_open, cat_url_imgs))
                         cat_hashs = list(map(imgs_hashs, cat_open_imgs))
                         cat_distances = list(map(similarity, cat_hashs))
-                        file = 'Dogs'  # папка с собаками
+                        file = 'Dogs'
                         dog_imgs = os.listdir(file)
                         dog_url_imgs = list(map(imgs_urls, dog_imgs))
                         dog_open_imgs = list(map(imgs_open, dog_url_imgs))
                         dog_hashs = list(map(imgs_hashs, dog_open_imgs))
                         dog_distances = list(map(similarity, dog_hashs))
-                        file = 'Nekot'  # папка с неко тян
+                        file = 'Nekot'
                         neko_imgs = os.listdir(file)
                         neko_url_imgs = list(map(imgs_urls, neko_imgs))
                         neko_open_imgs = list(map(imgs_open, neko_url_imgs))
                         neko_hashs = list(map(imgs_hashs, neko_open_imgs))
                         neko_distances = list(map(similarity, neko_hashs))
-                        file = 'Others'  # папка с пикчами из категории другое
+                        file = 'Others'
                         other_imgs = os.listdir(file)
                         other_url_imgs = list(map(imgs_urls, other_imgs))
                         other_open_imgs = list(map(imgs_open, other_url_imgs))
@@ -353,12 +353,12 @@ while 1:
                                         with open('Значения картинок.txt', 'w') as dict_values:
                                             dict_values.write(str(dict_values1))
                                         shutil.move('photo.jpg', f'Cats/cat_{cat}.jpg')
-                                        write_msg(peer_id, 'Хорошо, распознавание котов улучшилось.')
+                                        write_msg(peer_id, 'Хорошо, распознавание котов улучшилось.', keyboard2)
                                         break
                                     elif ('❌нет' == text or '❌нет' == text[29:33]) and user_id2 == user_id1:
                                         write_msg(peer_id, 'Бот ещё учится, напишите свой вариант того, что на фото.')
                                         for event in VkLongPoll(session).listen():
-                                            if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                                            if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                                 user_id2 = event.user_id
                                                 text = event.text.lower()
                                                 other_value = 0
@@ -435,12 +435,12 @@ while 1:
                                         with open('Значения картинок.txt', 'w') as dict_values:
                                             dict_values.write(str(dict_values1))
                                         shutil.move('photo.jpg', f'Dogs/dog_{dog}.jpg')
-                                        write_msg(peer_id, 'Хорошо, распознавание собак улучшилось.')
+                                        write_msg(peer_id, 'Хорошо, распознавание собак улучшилось.', keyboard2)
                                         break
                                     elif ('❌нет' == text or '❌нет' == text[29:33]) and user_id2 == user_id1:
                                         write_msg(peer_id, 'Бот ещё учится, напишите свой вариант того, что на фото.')
                                         for event in VkLongPoll(session).listen():
-                                            if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                                            if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                                 user_id2 = event.user_id
                                                 text = event.text.lower()
                                                 other_value = 0
@@ -517,12 +517,12 @@ while 1:
                                         with open('Значения картинок.txt', 'w') as dict_values:
                                             dict_values.write(str(dict_values1))
                                         shutil.move('photo.jpg', f'Nekot/neko_{neko}.jpg')
-                                        write_msg(peer_id, 'Хорошо, распознавание кошкодевочек улучшилось.')
+                                        write_msg(peer_id, 'Хорошо, распознавание кошкодевочек улучшилось.', keyboard2)
                                         break
                                     elif ('❌нет' == text or '❌нет' == text[29:33]) and user_id2 == user_id1:
                                         write_msg(peer_id, 'Бот ещё учится, напишите свой вариант того, что на фото.')
                                         for event in VkLongPoll(session).listen():
-                                            if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                                            if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                                 user_id2 = event.user_id
                                                 text = event.text.lower()
                                                 other_value = 0
@@ -596,7 +596,7 @@ while 1:
                                 other_name2 = other_name2[:other_name2.index('.')]
                             write_msg(peer_id, f'На фото, возможно {other_name2}, это правильно? Напишите Да или Нет.')
                             for event in VkLongPoll(session).listen():
-                                if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                                if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                     user_id2 = event.user_id
                                     text = event.text.lower()
                                     if ('✅да' == text or '✅да' == text[29:32]) and user_id2 == user_id1:
@@ -606,12 +606,12 @@ while 1:
                                             dict_values.write(str(dict_values1))
                                         shutil.move('photo.jpg', f'Others/{text}_{other}.jpg')
                                         write_msg(peer_id, f'Распознавание фотографий из категории "{other_name2}" '
-                                                           f'улучшено.')
+                                                           f'улучшено.', keyboard2)
                                         break
                                     elif ('❌нет' == text or '❌нет' == text[29:33]) and user_id2 == user_id1:
                                         write_msg(peer_id, 'Бот ещё учится, напишите свой вариант того, что на фото.')
                                         for event in VkLongPoll(session).listen():
-                                            if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                                            if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                                 user_id2 = event.user_id
                                                 text = event.text.lower()
                                                 other_value = 0
@@ -679,7 +679,7 @@ while 1:
                         else:
                             write_msg(peer_id, 'Бот не смог распознать фотографию.\nНапишите, что же на ней.')
                             for event in VkLongPoll(session).listen():
-                                if event.type == VkEventType.MESSAGE_NEW and event.to_me or event.from_me:
+                                if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                                     user_id2 = event.user_id
                                     text = event.text.lower()
                                     other_value = 0
@@ -751,42 +751,71 @@ while 1:
                         write_msg(peer_id, '🚫Произошла ошибка со стороны сервера фотографии🚫')
                     except requests.exceptions.ConnectionError:
                         write_msg(peer_id, '🚫Ошибка, не получилось скачать фотографию🚫')
+                    except OSError:
+                        write_msg(peer_id, '🚫Ошибка, не подходящее название фотографии🚫')
 
                 # работа с именами пользователей:
 
                 # установка нового имени пользователю
-                elif 'имя ' == text[:4]:
-                    user = user_info(user_id)  # получение инфы о пользователе по его айди
-                    name = user[0]['first_name'] + ' ' + user[0]['last_name']  # получение имени пользователя
-                    if user_id in dict_names1:  # проверка на наличие нового имени у пользователя в словаре
-                        name = dict_names1[user_id]  # присвоение нового имени пользователю при его наличии
-                    nick = event.text[4:]
-                    dict_names1[user_id] = nick
-                    with open('Словарь имён.txt', 'w', encoding='utf-8') as dict_names:
-                        dict_names.write(str(dict_names1))
-                    write_msg(peer_id, f'@id{user_id} ({name}), ваше новое имя - {nick}.\nЧтобы посмотреть топ '
-                                       f'новых имён напишите 👉Имена👈.\nЧтобы удалить новое имя напишите 👉Кик имя👈.')
+                if 'имя ' == text[:4]:
+                    if len(text[4:]) <= 20:
+                        if peer_id in dict_names1:
+                            dict_names2 = dict_names1[peer_id]
+                            user = user_info(user_id)  # получение инфы о пользователе по его айди
+                            name = user[0]['first_name'] + ' ' + user[0][
+                                'last_name']  # получение имени пользователя
+                            if user_id in dict_names2:  # проверка на наличие нового имени у пользователя в словаре
+                                name = dict_names2[
+                                    user_id]  # присвоение нового имени пользователю при его наличии
+                            nick = event.obj['message']['text'][4:]
+                            dict_names2[user_id] = nick
+                            dict_names1[peer_id] = dict_names2
+                            with open('Словарь имён.txt', 'w', encoding='utf-8') as dict_names:
+                                dict_names.write(str(dict_names1))
+                            write_msg(peer_id,
+                                      f'@id{user_id} ({name}), ваше новое имя - {nick}.\nЧтобы посмотреть топ '
+                                      f'новых имён напишите 👉Имена👈.\nЧтобы удалить новое имя напишите 👉Кик '
+                                      f'имя👈.')
+                        else:
+                            dict_names1[peer_id] = {}
+                            dict_names2 = dict_names1[peer_id]
+                            user = user_info(user_id)  # получение инфы о пользователе по его айди
+                            name = user[0]['first_name'] + ' ' + user[0][
+                                'last_name']  # получение имени пользователя
+                            nick = event.obj['message']['text'][4:]
+                            dict_names2[user_id] = nick
+                            dict_names1[peer_id] = dict_names2
+                            with open('Словарь имён.txt', 'w', encoding='utf-8') as dict_names:
+                                dict_names.write(str(dict_names1))
+                            write_msg(peer_id,
+                                      f'@id{user_id} ({name}), ваше новое имя - {nick}.\nЧтобы посмотреть топ '
+                                      f'новых имён напишите 👉Имена👈.\nЧтобы удалить новое имя напишите 👉Кик '
+                                      f'имя👈.')
+                    else:
+                        write_msg(peer_id, 'Длина нового имени не должна превышать 20 символов')
 
                 # выведение списка новых имён у пользователей
                 elif 'имена' == text:
-                    s = []
-                    for b in dict_names1.items():
-                        user = user_info(b[0])
-                        username = user[0]['first_name'] + ' ' + user[0]['last_name']
-                        s.append(f'@id{b[0]} ({username}) - {b[1]}')
-                    top = '\n'.join(s)
-                    if top != '':
+                    if peer_id in dict_names1:
+                        dict_names2 = dict_names1[peer_id]
+                        s = []
+                        for b in dict_names2.items():
+                            user = user_info(b[0])
+                            username = user[0]['first_name'] + ' ' + user[0]['last_name']
+                            s.append(f'@id{b[0]} ({username}) - {b[1]}')
+                        top = '\n'.join(s)
                         write_msg(peer_id, 'Топ новых имён:\n' + top)
                     else:
-                        write_msg(peer_id, 'Нет пользователей с новыми именами.')
+                        write_msg(peer_id, 'В данном чате нет пользователей с новыми именами.')
 
                 # удаление новго имени пользователя
                 elif 'кик имя' == text:
                     try:
+                        dict_names2 = dict_names1[peer_id]
                         user = user_info(user_id)  # получение инфы о пользователе по его айди
-                        # пользователю при наличии его в словаре
-                        nick = dict_names1[user_id]
-                        del dict_names1[user_id]
+                        nick = dict_names2[user_id]  # получение нового имени из словаря по айди
+                        del dict_names2[user_id]
+                        dict_names1[peer_id] = dict_names2
                         with open('Словарь имён.txt', 'w') as dict_names:
                             dict_names.write(str(dict_names1))
                         name = user[0]['first_name'] + ' ' + user[0]['last_name']
@@ -926,7 +955,7 @@ while 1:
 2) @id{user_idm2} ({name2}) - {mkg2} кг сала;
 3) @id{user_idm3} ({name3}) - {mkg3} кг сала;
 4) @id{user_idm4} ({name4}) - {mkg4} кг сала;
-5) @id{user_idm4} ({name4}) - {mkg4} кг сала.''')
+5) @id{user_idm5} ({name5}) - {mkg5} кг сала.''')
                     else:
                         write_msg(peer_id, 'Ещё нет новых пользователей.')
 
@@ -961,7 +990,7 @@ while 1:
 
                 # секретная команда выключения Бота
                 elif 'exit' == text:
-                    if user_id == "СЮДА АЙДИ":  # опять твой айди пользователя🤡
+                    if user_id == 445186298:  # опять твой айди пользователя
                         write_msg(peer_id, '💤Выключение бота💤')
                         ex = 1
                         break
@@ -996,11 +1025,11 @@ while 1:
                 elif 'ранд ' == text[:5]:
                     try:
                         text = text.replace('ранд ', '').split()
-                        d = int(text[0])
-                        e = int(text[1])
-                        f = range(d, e)
-                        g = str(random.choice(f))
-                        write_msg(peer_id, 'Рандомное число: ' + g)
+                        fr = int(text[0])
+                        t = int(text[1])
+                        ln = range(fr, t)
+                        rn = str(random.choice(ln))
+                        write_msg(peer_id, 'Рандомное число: ' + rn)
                     except ValueError:
                         write_msg(peer_id, '🚫Неправильно введён диапазон чисел🚫')
                     except NameError:
@@ -1016,13 +1045,13 @@ while 1:
                 elif 'несранд' == text[:7]:
                     try:
                         text = text.replace('несранд', '')
-                        g = int(text[:text.index(' ')])
+                        qn = int(text[:text.index(' ')])
                         text = text[text.index(' '):].split()
-                        d = int(text[0])
-                        e = int(text[1])
-                        f = range(d, e)
-                        h = str(random.sample(f, g))
-                        write_msg(peer_id, 'Рандомные числа: ' + h[1:-1])
+                        fr = int(text[0])
+                        t = int(text[1])
+                        ln = range(fr, t)
+                        lrn = str(random.sample(ln, qn))
+                        write_msg(peer_id, 'Рандомные числа: ' + lrn[1:-1])
                     except ValueError:
                         write_msg(peer_id, '🚫Количество случайных чисел превышает количество чисел в диапазоне, или '
                                            'они неправильно введены🚫')
@@ -1058,9 +1087,9 @@ while 1:
                 elif 'нессранд' == text[:8]:
                     try:
                         text = text.replace('нессранд', '')
-                        n = int(text[:text.index(' ')])
-                        lw = text = text[text.index(' '):].split()
-                        lrw = str(random.sample(lw, n))[1:-1].replace("'", '')
+                        qw = int(text[:text.index(' ')])
+                        lw = text[text.index(' '):].split()
+                        lrw = str(random.sample(lw, qw))[1:-1].replace("'", '')
                         write_msg(peer_id, 'Рандомные слова: ' + lrw)
                     except ValueError:
                         write_msg(peer_id, '🚫Количество случайных слов превышает количество слов в списке, или они '
@@ -1073,5 +1102,22 @@ while 1:
                         write_msg(peer_id, '🚫Неправильно введены список слов или количество случайных слов🚫')
                     except SyntaxError:
                         write_msg(peer_id, '🚫Неправильно введены список слов или количество случайных слов🚫')
+
+                # смена раскладки
+                elif text[:10] == 'раскладка ':
+                    word = ''
+                    for ltr in text[10:]:
+                        if ltr in ea or ltr in ra:
+                            for num in range(0, 34):
+                                eltr = ea[num]
+                                rltr = ra[num]
+                                if ltr == eltr:
+                                    word = word + rltr
+                                elif ltr == rltr:
+                                    word = word + eltr
+                        else:
+                            word = word + ltr
+                    write_msg(peer_id, f'Обратная раскладка: {word}')
+
     except requests.exceptions.ReadTimeout:
         print('Потеряно соединение с сервером вк в основном цикле фор')
