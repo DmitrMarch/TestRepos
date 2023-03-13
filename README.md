@@ -1,4 +1,4 @@
-- 👋Hello, I am a student of SSU im. Pitirim Sorokina @Dmitriytrescu (Dmitry Marchenko)
+- 👋Hello, I am a student of SyktSU (Dmitry Marchenko)
 - 👀 I am interested in coding in Python and C++
 - 🌱 I am currently studying them
 - 📫 How to contact me: mdi500100@gmail.com or +79225841061 or vk.com/dmitrmarch
