@@ -1,4 +1,4 @@
 - 👋 Hello, I am a student of SyktSU
 - 👀 I am interested in coding in Python and other languages
 - 🌱 I am currently studying them
-- 📫 How to contact me: mdi500100@gmail.com or +79225841061 or https://vk.com/dmitrmarch
+- 📫 How to contact me: mdi500100@gmail.com or https://vk.com/dmitrmarch
